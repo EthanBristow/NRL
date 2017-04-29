@@ -58,8 +58,16 @@
                 <h1>Reminders</h1>
             </div>
             
-            <div data-role="content">
-                <p>Example reminder here</p>
+            <div data-role="main" class="ui-content">
+                <p>
+                    Enter title and message for the reminder:
+                    <input type="text" id="title" placeholder="Title" />
+                    <input type="text" id="message" placeholder="Message" />
+                    Enter date and time to trigger reminder:
+                    <input type="date" id="date" placeholder="Change this to required format"/>
+                    <input type="time" id="time" placeholder="Change this to required format"/>
+                    <button id="addReminderBtn" data-role="button">Add Reminder</button>
+                </p>
             </div>
             
             <div id="global-footer" data-role="footer" data-position="fixed" data-theme="a" data-id="main-footer" class="ui-bar">
