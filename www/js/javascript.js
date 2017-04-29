@@ -139,28 +139,33 @@ $(document).ready(function () {
     }
     
     //VALIDATE NOTE NUMBER TEXTAREA
-    function validate(key) {
+    /*function validate(key) {
         var keycode = (key.which) ? key.which : key.keyCode;
         //comparing pressed keycodes
         if (keycode === 8 || (keycode >= 48 && keycode <= 57)) {
             return true;
         }
         if (keycode < 48 || keycode > 57) {
-            /*alert("Please only enter the note number e.g. 1, 2..14 etc.");*/
+            alert("Please only enter the note number e.g. 1, 2..14 etc.");
             $("#noteNumberInput").val("");
             return false;
         }
-    }
+    }*/
     
     //EDIT NOTES
     function editNotes() {
         var noteId = $("#noteNumberInput").val(),
             editInput = $("#noteEditInput").val();
         
-        $("#note" + noteId).text( "Note " + noteId + ": " + editInput);
+        if (isNaN(noteId)) {
+            alert("Please only enter the note number e.g. 1, 2..14 etc.");
+        } else {
+            $("#note" + noteId).text( "Note " + noteId + ": " + editInput);
         
-        //Store the updated note
-        localStorage.setItem("note" + noteId, "Note " + noteId + ": " + editInput);
+            //Store the updated note
+            localStorage.setItem("note" + noteId, "Note " + noteId + ": " + editInput);
+        }
+        
     }
     
     //DELETE NOTES
@@ -220,7 +225,6 @@ $("#listForm").submit(function(ev) {
         //Store the list title
         localStorage.setItem("input" + listCount, input); //"Note " + noteCount + ": " + 
 
-        this.submit();
     }
 });
 
@@ -299,7 +303,7 @@ $("#listForm").submit(function(ev) {
     //EVENT LISTERNERS
     //Notes
     addnotebtn.addEventListener("click", addNotes);
-    noteNumberInput.addEventListener("keyup", validate);
+    /*noteNumberInput.addEventListener("keyup", validate);*/
     editNoteBtn.addEventListener("click", editNotes);
     deleteNoteBtn.addEventListener("click", deleteNotes);
     

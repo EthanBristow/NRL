@@ -128,6 +128,7 @@
 .listspagebtn {
     display: inline-block;
     width: 33.3%;
+    min-width: 90px;
     height: 80%;
     font-family: 'Open Sans Condensed', sans-serif;;
     font-size: 100%;
