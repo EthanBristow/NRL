@@ -8,7 +8,7 @@ $(document).ready(function () {
     var noteCount = localStorage.getItem("noteCount");  
     
     //REMINDER
-    
+    var addReminderBtn = document.getElementById("addReminderBtn");
     
     //LISTS
     var listInput = document.getElementById("listInput");
@@ -138,19 +138,6 @@ $(document).ready(function () {
         }
     }
     
-    //VALIDATE NOTE NUMBER TEXTAREA
-    /*function validate(key) {
-        var keycode = (key.which) ? key.which : key.keyCode;
-        //comparing pressed keycodes
-        if (keycode === 8 || (keycode >= 48 && keycode <= 57)) {
-            return true;
-        }
-        if (keycode < 48 || keycode > 57) {
-            alert("Please only enter the note number e.g. 1, 2..14 etc.");
-            $("#noteNumberInput").val("");
-            return false;
-        }
-    }*/
     
     //EDIT NOTES
     function editNotes() {
@@ -308,11 +295,86 @@ $("#listForm").submit(function(ev) {
     deleteNoteBtn.addEventListener("click", deleteNotes);
     
     //Reminders
+    addReminderBtn.addEventListener("click", addReminder);
+    
     
     //Lists
     $(document).on('click', '.closeBtn', deleteItem);
     $("#checkboxContainer").on('change', '.checkbox', boxChanged);
     
 });
+
+var info = null;
+
+document.addEventListener("deviceready", function(){
+    if(!localStorage.getItem("rp_data")) {
+        var rp_data = {data: []};
+        localStorage.setItem("rp_data", JSON.stringify(rp_data));
+    }
+
+    info = JSON.parse(localStorage.getItem("rp_data"));
+}, false);
+
+
+
+function addReminder() {
+    
+    var date = document.getElementById("date").value;
+    var time = document.getElementById("time").value;
+    var title = document.getElementById("title").value;
+    var message = document.getElementById("message").value;
+
+    if(date == "" || time == "" || title == "" || message == "")
+    {
+      navigator.notification.alert("Please enter all details");
+      return;
+    }
+
+    var schedule_time = new Date((date + " " + time).replace(/-/g, "/")).getTime();
+    schedule_time = new Date(schedule_time);
+
+    var id = info.data.length;
+
+    cordova.plugins.notification.local.hasPermission(function(granted){
+      if(granted == true)
+      {
+        schedule(id, title, message, schedule_time);
+      }
+      else
+      {
+        cordova.plugins.notification.local.registerPermission(function(granted) {
+            if(granted == true)
+            {
+              schedule(id, title, message, schedule_time);
+            }
+            else
+            {
+              navigator.notification.alert("Reminder cannot be added because app doesn't have permission");
+            }
+        });
+      }
+    });
+}
+
+function schedule(id, title, message, schedule_time)
+{
+    cordova.plugins.notification.local.schedule({
+        id: id,
+        title: title,
+        message: message,
+        at: schedule_time
+    });
+
+    var array = [id, title, message, schedule_time];
+    info.data[info.data.length] = array;
+    localStorage.setItem("rp_data", JSON.stringify(info));
+
+    navigator.notification.alert("Reminder added successfully")
+}
+
+
+
+
+
 
 
