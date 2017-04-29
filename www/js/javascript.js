@@ -146,7 +146,7 @@ $(document).ready(function () {
             return true;
         }
         if (keycode < 48 || keycode > 57) {
-            alert("Please only enter the note number e.g. 1, 2..14 etc.");
+            /*alert("Please only enter the note number e.g. 1, 2..14 etc.");*/
             $("#noteNumberInput").val("");
             return false;
         }
@@ -299,7 +299,7 @@ $("#listForm").submit(function(ev) {
     //EVENT LISTERNERS
     //Notes
     addnotebtn.addEventListener("click", addNotes);
-    noteNumberInput.addEventListener("keydown", validate);
+    noteNumberInput.addEventListener("keyup", validate);
     editNoteBtn.addEventListener("click", editNotes);
     deleteNoteBtn.addEventListener("click", deleteNotes);
     
