@@ -16,6 +16,6 @@
     
     <content src="index.html" />
     
-    <gap:plugin name="de.appplant.cordova.plugin.local-notification" />
+    <plugin name="de.appplant.cordova.plugin.local-notification" />
 
 </widget>
