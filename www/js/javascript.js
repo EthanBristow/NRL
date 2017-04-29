@@ -170,50 +170,50 @@ $(document).ready(function () {
     
     
     //ADD LIST ITEM
-$("#listForm").submit(function(ev) {
-    ev.preventDefault();
-    var $listInput = $("#listInput");
-    var input = $listInput.val();
+    $("#listForm").submit(function(ev) {
+        ev.preventDefault();
+        var $listInput = $("#listInput");
+        var input = $listInput.val();
 
-    if (input == "") {
-        alert("Please enter the item name, then click 'Add'.");
-    } else {
-        listCount++;
-        
-        $("<div />")
-            .attr("id", "input" + listCount + "container")
-            .attr("class", "inputContainer")
-            .appendTo("#checkboxContainer");
+        if (input == "") {
+            alert("Please enter the item name, then click 'Add'.");
+        } else {
+            listCount++;
 
-        $("<input />")
-            .attr("id", "input" + listCount)
-            .attr("type", "checkbox")
-            .attr("class", "inline checkbox")
-            .appendTo("#input" + listCount + "container");
+            $("<div />")
+                .attr("id", "input" + listCount + "container")
+                .attr("class", "inputContainer")
+                .appendTo("#checkboxContainer");
 
-        $("<label />") //create new label
-            .attr("id", "label" + listCount) //set ID
-            .attr("for", "input" + listCount) //set For
-            .attr("class", "inline")
-            .attr("data-roll", "none")
-            .html(input) //set contents
-            .appendTo("#input" + listCount + "container");//add to checkbox container
-        
-        $("<img />")
-            .attr("id", "closeBtn" + listCount)
-            .attr("class", "closeBtn right")
-            .attr("src", "assets/android-close.png")
-            .appendTo("#input" + listCount + "container");
-        
+            $("<input />")
+                .attr("id", "input" + listCount)
+                .attr("type", "checkbox")
+                .attr("class", "inline checkbox")
+                .appendTo("#input" + listCount + "container");
 
-        //Store the list count
-        localStorage.setItem("listCount", listCount);
+            $("<label />") //create new label
+                .attr("id", "label" + listCount) //set ID
+                .attr("for", "input" + listCount) //set For
+                .attr("class", "inline")
+                .attr("data-roll", "none")
+                .html(input) //set contents
+                .appendTo("#input" + listCount + "container");//add to checkbox container
 
-        //Store the list title
-        localStorage.setItem("input" + listCount, input); //"Note " + noteCount + ": " + 
+            $("<img />")
+                .attr("id", "closeBtn" + listCount)
+                .attr("class", "closeBtn right")
+                .attr("src", "assets/android-close.png")
+                .appendTo("#input" + listCount + "container");
 
-    }
-});
+
+            //Store the list count
+            localStorage.setItem("listCount", listCount);
+
+            //Store the list title
+            localStorage.setItem("input" + listCount, input); //"Note " + noteCount + ": " + 
+
+        }
+    });
 
     
     //DISPLAY LISTS
@@ -287,6 +287,31 @@ $("#listForm").submit(function(ev) {
         }
     }
     
+    
+    //ADD REMINDER
+    function addReminder() {
+        alert("Add functions runs");
+        var date = document.getElementById("date").value;
+        /*var time = document.getElementById("time").value;*/
+        var title = document.getElementById("title").value;
+        var message = document.getElementById("message").value;
+        
+        cordova.plugins.notifications.local.schedule({
+            id: 1,
+            text: message,
+            title: title,
+            at: date
+        });
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
     //EVENT LISTERNERS
     //Notes
     addnotebtn.addEventListener("click", addNotes);
@@ -304,20 +329,8 @@ $("#listForm").submit(function(ev) {
     
 });
 
-var info = null;
 
-document.addEventListener("deviceready", function(){
-    if(!localStorage.getItem("rp_data")) {
-        var rp_data = {data: []};
-        localStorage.setItem("rp_data", JSON.stringify(rp_data));
-    }
-
-    info = JSON.parse(localStorage.getItem("rp_data"));
-}, false);
-
-
-
-function addReminder() {
+/*function addReminder() {
     
     var date = document.getElementById("date").value;
     var time = document.getElementById("time").value;
@@ -370,7 +383,7 @@ function schedule(id, title, message, schedule_time)
     localStorage.setItem("rp_data", JSON.stringify(info));
 
     navigator.notification.alert("Reminder added successfully")
-}
+}*/
 
 
 
